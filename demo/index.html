@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body,
+      html {
+        margin: 0;
+      }
+
+      svg {
+        width: 100vh;
+        height: 100vh;
+        background: #eee;
+      }
+
+      main {
+        display: flex;
+        gap: 20px;
+      }
+
+      #config input {
+        height: 40px;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+      <div id="config">
+        <label>
+          <span>Iterations:</span><br />
+          <input type="number" min="0" max="10" value="0" />
+        </label>
+      </div>
+    </main>
+
+    <script type="module">
+      import { createSierpinskiTriangle } from "../src/triangle.ts";
+
+      function render(iterations) {
+        const result = createSierpinskiTriangle({
+          size: window.innerHeight,
+          iterations,
+        });
+        console.log(result);
+
+        const svg = document.getElementById("svg");
+        svg.innerHTML = "";
+
+        for (const triangle of result) {
+          const polygon = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "polygon"
+          );
+
+          polygon.setAttribute(
+            "fill",
+            result.indexOf(triangle) === 0 ? "black" : "white"
+          );
+
+          polygon.setAttribute(
+            "points",
+            triangle.points.map((point) => `${point.x},${point.y}`).join(" ")
+          );
+          svg.appendChild(polygon);
+        }
+      }
+
+      document
+        .querySelector("#config input")
+        .addEventListener("change", (e) => {
+          render(parseInt(e.target.value));
+        });
+
+      render(0);
+    </script>
+  </body>
+</html>
