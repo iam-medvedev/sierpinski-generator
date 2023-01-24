@@ -84,7 +84,9 @@ function loop({
   }
 
   const newBoxes: Box[] = [];
-  for (const box of previousBoxes) {
+  for (let index = 0; index < previousBoxes.length; index++) {
+    const box = previousBoxes[index];
+
     // Find top, left, right boxes
     const {
       top: topBox,
@@ -164,5 +166,5 @@ export function createSierpinskiTriangle(options: CreateOptions) {
     previousBoxes: [mainBox],
   });
 
-  return [...triangles, ...result];
+  return triangles.concat(result);
 }
