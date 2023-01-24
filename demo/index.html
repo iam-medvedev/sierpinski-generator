@@ -69,11 +69,15 @@
         }
       }
 
-      document
-        .querySelector("#config input")
-        .addEventListener("change", (e) => {
-          render(parseInt(e.target.value));
-        });
+      const input = document.querySelector("#config input");
+
+      input.addEventListener("change", (e) => {
+        render(parseInt(e.target.value));
+      });
+
+      window.addEventListener("resize", () => {
+        render(parseInt(input.value));
+      });
 
       render(0);
     </script>
