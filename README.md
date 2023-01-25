@@ -10,7 +10,13 @@ yarn add sierpinski-generator
 
 ## Demo
 
-See [demo](./demo/index.html) for interactive svg-generator.
+See interactive svg-generator [demo](https://iam-medvedev.github.io/sierpinski-generator/).
+
+Or run it locally:
+
+```sh
+yarn demo
+```
 
 <img src="./demo/demo.gif" width="250" />
 
@@ -52,3 +58,7 @@ const result = createSierpinskiTriangle({
 //   ...
 // ];
 ```
+
+## License
+
+`sierpinski-generator` is [WTFPL licensed](./LICENSE).

@@ -30,6 +30,10 @@
         height: 40px;
         width: 100px;
       }
+
+      a {
+        color: black;
+      }
     </style>
   </head>
   <body>
@@ -42,10 +46,15 @@
         <span>Iterations:</span><br />
         <input type="number" min="0" max="10" value="0" />
       </label>
+      <br />
+      <br />
+      <a href="https://github.com/iam-medvedev/sierpinski-generator" target="_blank" rel="noopener noreferrer">Repo</a>
+      <br />
+      <a href="https://www.npmjs.com/package/sierpinski-generator" target="_blank" rel="noopener noreferrer">NPM</a>
     </div>
 
     <script type="module">
-      import { createSierpinskiTriangle } from '../src/triangle.ts';
+      import { createSierpinskiTriangle } from 'https://esm.sh/sierpinski-generator';
 
       function render(iterations) {
         const result = createSierpinskiTriangle({
