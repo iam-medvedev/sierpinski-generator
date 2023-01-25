@@ -1,4 +1,4 @@
-import type { Box, Triangle } from "./types";
+import type { Box, Triangle } from './types';
 
 type CreateOptions = {
   size: number;
@@ -20,8 +20,6 @@ type FindTrianglesResult = {
 
 /**
  * Creates triangle from box
- *
- * The top can be at the top of box or upside down
  */
 function createTriangle(box: Box, reversed: boolean): Triangle {
   return {
@@ -73,12 +71,7 @@ function findTrianglesInBox(box: Box): FindTrianglesResult {
 /**
  * Creating triangles in loop
  */
-function loop({
-  currentIteration,
-  totalIterations,
-  previousBoxes,
-  newPoints = [],
-}: LoopOptions): Triangle[] {
+function loop({ currentIteration, totalIterations, previousBoxes, newPoints = [] }: LoopOptions): Triangle[] {
   if (currentIteration >= totalIterations) {
     return newPoints;
   }
@@ -88,21 +81,13 @@ function loop({
     const box = previousBoxes[index];
 
     // Find top, left, right boxes
-    const {
-      top: topBox,
-      left: leftBox,
-      right: rightBox,
-    } = findTrianglesInBox(box);
+    const { top: topBox, left: leftBox, right: rightBox } = findTrianglesInBox(box);
 
     // Save this boxes for next usage
     newBoxes.push(topBox, leftBox, rightBox);
 
     // Create triangles for boxes
-    newPoints.push(
-      createTriangle(topBox, true),
-      createTriangle(leftBox, true),
-      createTriangle(rightBox, true)
-    );
+    newPoints.push(createTriangle(topBox, true), createTriangle(leftBox, true), createTriangle(rightBox, true));
   }
 
   return loop({
@@ -137,7 +122,7 @@ export function createSierpinskiTriangle(options: CreateOptions) {
       x: 0,
       y: 0,
     },
-    false
+    false,
   );
   triangles.push(firstTriangle);
 

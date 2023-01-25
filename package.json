@@ -1,19 +1,55 @@
 {
   "name": "sierpinski-generator",
   "version": "1.0.0",
+  "description": "Sierpiński triangle dataset generator",
+  "repository": "https://github.com/iam-medvedev/sierpinski-generator.git",
+  "homepage": "https://github.com/iam-medvedev/sierpinski-generator#readme",
+  "bugs": "https://github.com/iam-medvedev/sierpinski-generator/issues",
+  "author": "Ilya Medvedev <ilya@medvedev.im>",
   "license": "WTFPL",
+  "keywords": [
+    "sierpiński",
+    "sierpinski",
+    "triangle",
+    "generator",
+    "fractal",
+    "dataset"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "files": [
+    "dist/*",
+    "package.json"
+  ],
   "scripts": {
     "bench": "tsx ./benchmark.ts",
-    "build": "tsc",
+    "build": "rm -rf ./dist && NODE_ENV=production yarn build:transpile && NODE_ENV=production yarn build:types",
+    "build:transpile": "tsx ./build.ts",
+    "build:types": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "demo": "vite -c ./demo/vite.config.ts",
-    "test": "vitest"
+    "types": "tsc --noEmit",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage --reporter=junit --outputFile.junit=./coverage.xml"
   },
   "devDependencies": {
+    "@vitest/coverage-c8": "^0.28.1",
     "benny": "^3.7.1",
+    "esbuild": "^0.17.4",
+    "prettier": "^2.8.3",
     "tsx": "^3.12.2",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
     "vitest": "^0.28.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 120
   },
   "volta": {
     "node": "18.13.0",
