@@ -31,16 +31,25 @@
     "build": "rm -rf ./dist && NODE_ENV=production yarn build:transpile && NODE_ENV=production yarn build:types",
     "build:transpile": "tsx ./build.ts",
     "build:types": "tsc --emitDeclarationOnly --declaration --outDir dist",
+    "commit": "yarn git-cz",
     "demo": "vite -c ./demo/vite.config.ts",
     "types": "tsc --noEmit",
     "test": "vitest",
     "test:ci": "vitest run --coverage --reporter=junit --outputFile.junit=./coverage.xml"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "6.0.2",
+    "@semantic-release/commit-analyzer": "9.0.2",
+    "@semantic-release/github": "8.0.7",
+    "@semantic-release/npm": "9.0.2",
+    "@semantic-release/release-notes-generator": "10.0.3",
     "@vitest/coverage-c8": "^0.28.1",
     "benny": "^3.7.1",
+    "cz-conventional-changelog": "3.3.0",
     "esbuild": "^0.17.4",
+    "git-cz": "4.9.0",
     "prettier": "^2.8.3",
+    "semantic-release": "20.0.2",
     "tsx": "^3.12.2",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
@@ -53,6 +62,12 @@
   },
   "volta": {
     "node": "18.13.0",
-    "yarn": "1.22.5"
-  }
+    "yarn": "1.22.19"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "packageManager": "yarn@3.3.1"
 }

@@ -1,9 +1,9 @@
-name: test
+name: release
 
-on: push
+on: workflow_dispatch
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,14 +20,11 @@ jobs:
       - name: Install dependencies
         run: yarn add --cached
 
-      - name: Check types
-        run: yarn types
-
-      - name: Test
-        run: yarn test:ci
-
-      - name: Bench
-        run: yarn bench
-
       - name: Build
         run: yarn build
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn semantic-release
