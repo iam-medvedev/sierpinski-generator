@@ -10,29 +10,32 @@
         font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, Arial, sans-serif;
       }
 
-      svg {
-        width: 100vh;
-        height: 100vh;
-      }
-
       main {
         display: flex;
         justify-content: center;
       }
 
-      #config {
-        position: fixed;
-        top: 16px;
-        left: 16px;
+      svg {
+        width: 100vh;
+        height: 100vh;
       }
 
-      #config input {
-        height: 40px;
-        width: 100px;
+      aside {
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        border-radius: 8px;
+        background: #eee;
+        z-index: 1;
       }
 
       a {
         color: black;
+      }
+
+      a:hover {
+        opacity: 0.6;
       }
     </style>
   </head>
@@ -41,37 +44,36 @@
       <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
     </main>
 
-    <div id="config">
-      <label>
-        <span>Depth:</span><br />
-        <input autofocus type="number" min="0" max="10" value="0" />
-      </label>
+    <aside>
+      <b>sierpinski-generator</b>
       <br />
-      <br />
-      <span>Triangles: <span id="triangles-counter">1</span></span>
-      <br />
-      <br />
-      <a href="https://github.com/iam-medvedev/sierpinski-generator" target="_blank" rel="noopener noreferrer">Repo</a>
-      <br />
-      <a href="https://www.npmjs.com/package/sierpinski-generator" target="_blank" rel="noopener noreferrer">NPM</a>
-    </div>
+      <div class="links">
+        <a href="https://github.com/iam-medvedev/sierpinski-generator" target="_blank" rel="noopener noreferrer"
+          >github</a
+        >
+        <a href="https://www.npmjs.com/package/sierpinski-generator" target="_blank" rel="noopener noreferrer">npm</a>
+      </div>
+    </aside>
 
     <script type="module">
-      // import { createSierpinskiTriangle } from 'https://esm.sh/sierpinski-generator';
-      import { createSierpinskiTriangle } from '../src/triangle';
+      import * as dat from 'https://esm.sh/dat.gui';
+      import { createSierpinskiTriangle, createSierpinskiCarpet } from 'https://esm.sh/sierpinski-generator';
 
-      function render(depth) {
-        const result = createSierpinskiTriangle({
-          size: window.innerHeight,
-          depth,
-        });
+      // NOTE: remove comment to run locally
+      // import { createSierpinskiTriangle, createSierpinskiCarpet } from '../src';
 
-        console.log(result);
+      const gui = new dat.GUI({ name: 'sierpinski-generator' });
+      const svg = document.getElementById('svg');
 
-        const counter = document.getElementById('triangles-counter');
-        counter.innerHTML = Number(result.length).toLocaleString();
+      // Config for generator
+      const config = {
+        depth: 0,
+        type: 'Triangle',
+      };
 
-        const svg = document.getElementById('svg');
+      /** Renders triangles in SVG */
+      function renderTriangle(options) {
+        const result = createSierpinskiTriangle(options);
         svg.innerHTML = '';
 
         for (const triangle of result) {
@@ -83,17 +85,47 @@
         }
       }
 
-      const input = document.querySelector('#config input');
+      /** Renders carpet in SVG */
+      function renderCarpet(options) {
+        const result = createSierpinskiCarpet(options);
+        svg.innerHTML = '';
 
-      input.addEventListener('change', (e) => {
-        render(parseInt(e.target.value));
-      });
+        for (const box of result) {
+          const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-      window.addEventListener('resize', () => {
-        render(parseInt(input.value));
-      });
+          rect.setAttribute('fill', 'black');
+          rect.setAttribute('x', box.x);
+          rect.setAttribute('y', box.y);
+          rect.setAttribute('width', box.width);
+          rect.setAttribute('height', box.height);
+          svg.appendChild(rect);
+        }
+      }
 
-      render(0);
+      /** Main renderer */
+      function render() {
+        const depth = Math.round(config.depth);
+        const options = {
+          size: window.innerHeight,
+          depth,
+        };
+
+        if (config.type === 'Triangle') {
+          renderTriangle(options);
+        } else {
+          renderCarpet(options);
+        }
+      }
+
+      // dat.gui settings
+      const fields = gui.addFolder('Options');
+      fields.add(config, 'type', ['Triangle', 'Carpet']).onChange(render);
+      fields.add(config, 'depth', 0, 5).onChange(render);
+      fields.open();
+
+      window.addEventListener('resize', render);
+
+      render();
     </script>
   </body>
 </html>

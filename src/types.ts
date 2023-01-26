@@ -14,3 +14,8 @@ export type Triangle = {
   box: Box;
   points: [Point, Point, Point];
 };
+
+export type CreateOptions = {
+  size: number;
+  depth: number;
+};

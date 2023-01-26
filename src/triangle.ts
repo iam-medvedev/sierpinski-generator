@@ -1,9 +1,5 @@
-import type { Triangle } from './types';
-
-type CreateOptions = {
-  size: number;
-  depth: number;
-};
+import type { CreateOptions, Triangle } from './types';
+import { validateOptions } from './validate';
 
 type LoopOptions = {
   x: number;
@@ -26,19 +22,9 @@ type LoopOptions = {
  * ```
  */
 export function createSierpinskiTriangle(options: CreateOptions): Triangle[] {
+  validateOptions(options);
+
   const triangles: Triangle[] = [];
-
-  if (typeof options !== 'object') {
-    throw new Error('[createSierpinskiTriangle] Please provide `options`');
-  }
-
-  if (typeof options.depth !== 'number') {
-    throw new Error('[createSierpinskiTriangle] Please provide `depth`');
-  }
-
-  if (typeof options.size !== 'number') {
-    throw new Error('[createSierpinskiTriangle] Please provide `size`');
-  }
 
   /**
    * Creates triangles in loop
