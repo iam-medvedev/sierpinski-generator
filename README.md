@@ -59,7 +59,10 @@ const result = createSierpinskiCarpet({
   iterations: 4,
 });
 
-//
+// [
+//   { width: 333.3333333333333, height: 333.3333333333333, x: 0, y: 0 },
+//   { width: 333.3333333333333, height: 333.3333333333333, x: 0, y: 333.3333333333333 },
+// ];
 ```
 
 ## Local demo
